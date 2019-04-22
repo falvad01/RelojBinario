@@ -22,7 +22,7 @@ public class Main {
 		int anchoPantalla = tamanioPantalla.width;// ancho
 		frame.setLocation(anchoPantalla / 4, alturaPantalla / 32);// Marco centrado
 
-		frame.setSize(400, 320);
+		frame.setSize(450, 280);
 		frame.setBackground(Color.BLACK);
 		frame.setResizable(false);// No dejamos poner en pantalla completa
 		frame.setVisible(true);
@@ -33,19 +33,14 @@ public class Main {
 		frame.setLayout(null);
 
 		while (true) { // Loop del juego
-
 			
 			if (startFlag) {
 
 				reloj.bucleReloj();
 				reloj.repaint();
-
 			}
-
-			Thread.sleep(100);
-
+			Thread.sleep(1000);
 		}
-
 	}
 
 	public void setStartFlag(boolean f) {

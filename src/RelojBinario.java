@@ -11,8 +11,13 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import javax.swing.UIManager;
 
 public class RelojBinario extends JPanel {
+
+	Main a = new Main();
+	JLabel mostrarReloj;
 
 	private int radio = 15;
 	private int diametro = radio * 2;
@@ -21,12 +26,14 @@ public class RelojBinario extends JPanel {
 	private static final Color colorOff = Color.BLACK;
 	private static final int PWIDTH = 300;
 	private static final int PHEIGH = 400;
-	private static final int initX = 320;
+	private static final int initX = 380;
 
 	private int segundoDerecha = 0;
 	private int segundoIzquierda = 0;
 	private int minutoDerecha = 0;
 	private int minutoIzquierda = 0;
+	private int horaDerecha = 0;
+	private int horaIzquierda = 0;
 
 	private Color SD1 = Color.WHITE;
 	private Color SD2 = Color.WHITE;
@@ -36,46 +43,63 @@ public class RelojBinario extends JPanel {
 	private Color SI1 = Color.WHITE;
 	private Color SI2 = Color.WHITE;
 	private Color SI4 = Color.WHITE;
-	
+
 	private Color MD1 = Color.WHITE;
 	private Color MD2 = Color.WHITE;
 	private Color MD4 = Color.WHITE;
 	private Color MD8 = Color.WHITE;
-	
+
 	private Color MI1 = Color.WHITE;
 	private Color MI2 = Color.WHITE;
 	private Color MI4 = Color.WHITE;
+
+	private Color HD1 = Color.WHITE;
+	private Color HD2 = Color.WHITE;
+	private Color HD4 = Color.WHITE;
+	private Color HD8 = Color.WHITE;
+
+	private Color HI1 = Color.WHITE;
+	private Color HI2 = Color.WHITE;
 
 	/**
 	 * Create the frame.
 	 */
 	public RelojBinario() {
-		Main a = new Main();
+
 		setBackground(Color.BLACK);
 
 		this.setLayout(null);
 
 		JLabel uno = new JLabel("1");
+		uno.setBackground(Color.WHITE);
 		uno.setForeground(Color.WHITE);
-		uno.setBounds(367, 205, 20, 20);
+		uno.setBounds(initX + 40, 205, 20, 20);
 		uno.setVisible(true);
 		add(uno);
+		
+		mostrarReloj = new JLabel("00:00:00");
+		mostrarReloj.setFont(new Font("Tahoma", Font.BOLD, 17));
+		mostrarReloj.setBackground(Color.RED);
+		mostrarReloj.setBounds(20, 138, 89, 28);
+		mostrarReloj.setVisible(true);
+		add(mostrarReloj);
+		
 
 		JLabel dos = new JLabel("2");
 		dos.setForeground(Color.WHITE);
-		dos.setBounds(367, 145, 20, 20);
+		dos.setBounds(initX + 40, 145, 20, 20);
 		dos.setVisible(true);
 		add(dos);
 
 		JLabel cuatro = new JLabel("4");
 		cuatro.setForeground(Color.WHITE);
-		cuatro.setBounds(367, 85, 20, 20);
+		cuatro.setBounds(initX + 40, 85, 20, 20);
 		cuatro.setVisible(true);
 		add(cuatro);
 
 		JLabel ocho = new JLabel("8");
 		ocho.setForeground(Color.WHITE);
-		ocho.setBounds(367, 25, 20, 20);
+		ocho.setBounds(initX + 40, 25, 20, 20);
 		ocho.setVisible(true);
 		add(ocho);
 
@@ -86,7 +110,7 @@ public class RelojBinario extends JPanel {
 			}
 		});
 
-		btnNewButton.setBounds(10, 265, 89, 23);
+		btnNewButton.setBounds(10, 24, 89, 23);
 		add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Stop");
@@ -95,8 +119,17 @@ public class RelojBinario extends JPanel {
 				a.setStartFlag(false);
 			}
 		});
-		btnNewButton_1.setBounds(108, 265, 89, 23);
+		btnNewButton_1.setBounds(10, 58, 89, 23);
 		add(btnNewButton_1);
+
+		JButton btnNewButton_2 = new JButton("Reset");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				reset();
+			}
+		});
+		btnNewButton_2.setBounds(10, 92, 89, 23);
+		add(btnNewButton_2);
 
 	}
 
@@ -123,7 +156,7 @@ public class RelojBinario extends JPanel {
 		segundosD_1.setStroke(new BasicStroke(10f)); // Grosor contorno
 		segundosD_1.setPaint(SD1);
 		segundosD_1.fillOval(initX, 200, diametro, diametro);
-		
+
 		///////////////////////////
 
 		Graphics2D segundosI_4 = (Graphics2D) g;
@@ -146,32 +179,29 @@ public class RelojBinario extends JPanel {
 		lineaMinutosSegundos.setColor(Color.gray);
 		lineaMinutosSegundos.drawLine(initX - 50, initX - 50, initX - 50, 0);
 
-		/////////////////////////
-		//////////////////////////
-		
-		
-		
-		
+		////////////////////////////////////////////
+		//////////////////////////////////////////////////////
+
 		Graphics2D minutosD_8 = (Graphics2D) g;
 		minutosD_8.setStroke(new BasicStroke(10f)); // Grosor contorno
 		minutosD_8.setPaint(MD8);
-		minutosD_8.fillOval(initX-90, 20, diametro, diametro);
+		minutosD_8.fillOval(initX - 90, 20, diametro, diametro);
 
 		Graphics2D minutosD_4 = (Graphics2D) g;
 		minutosD_4.setStroke(new BasicStroke(10f)); // Grosor contorno
 		minutosD_4.setPaint(MD4);
-		minutosD_4.fillOval(initX-90, 80, diametro, diametro);
+		minutosD_4.fillOval(initX - 90, 80, diametro, diametro);
 
 		Graphics2D minutosD_2 = (Graphics2D) g;
 		minutosD_2.setStroke(new BasicStroke(10f)); // Grosor contorno
 		minutosD_2.setPaint(MD2);
-		minutosD_2.fillOval(initX-90, 140, diametro, diametro);
+		minutosD_2.fillOval(initX - 90, 140, diametro, diametro);
 
 		Graphics2D minutosD_1 = (Graphics2D) g;
 		minutosD_1.setStroke(new BasicStroke(10f)); // Grosor contorno
 		minutosD_1.setPaint(MD1);
-		minutosD_1.fillOval(initX-90, 200, diametro, diametro);
-		
+		minutosD_1.fillOval(initX - 90, 200, diametro, diametro);
+
 		///////////////////////////
 
 		Graphics2D minutosI_4 = (Graphics2D) g;
@@ -193,8 +223,44 @@ public class RelojBinario extends JPanel {
 		lineaHorasMinutos.setStroke(new BasicStroke(1f)); // Grosor contorno
 		lineaHorasMinutos.setColor(Color.gray);
 		lineaHorasMinutos.drawLine(initX - 140, initX - 50, initX - 140, 0);
-		
-		
+
+		////////////////////////////////////
+		//////////////////////////////////////////
+
+		Graphics2D horasD_8 = (Graphics2D) g;
+		horasD_8.setStroke(new BasicStroke(10f)); // Grosor contorno
+		horasD_8.setPaint(HD8);
+		horasD_8.fillOval(initX - 180, 20, diametro, diametro);
+
+		Graphics2D horasD_4 = (Graphics2D) g;
+		horasD_4.setStroke(new BasicStroke(10f)); // Grosor contorno
+		horasD_4.setPaint(HD4);
+		horasD_4.fillOval(initX - 180, 80, diametro, diametro);
+
+		Graphics2D horasD_2 = (Graphics2D) g;
+		horasD_2.setStroke(new BasicStroke(10f)); // Grosor contorno
+		horasD_2.setPaint(HD2);
+		horasD_2.fillOval(initX - 180, 140, diametro, diametro);
+
+		Graphics2D horasD_1 = (Graphics2D) g;
+		horasD_1.setStroke(new BasicStroke(10f)); // Grosor contorno
+		horasD_1.setPaint(HD1);
+		horasD_1.fillOval(initX - 180, 200, diametro, diametro);
+
+		///////////////////////////
+
+		Graphics2D horasI_2 = (Graphics2D) g;
+		horasI_2.setStroke(new BasicStroke(10f)); // Grosor contorno
+		horasI_2.setPaint(HI2);
+		horasI_2.fillOval(initX - 220, 140, diametro, diametro);
+
+		Graphics2D horasI_1 = (Graphics2D) g;
+		horasI_1.setStroke(new BasicStroke(10f)); // Grosor contorno
+		horasI_1.setPaint(HI1);
+		horasI_1.fillOval(initX - 220, 200, diametro, diametro);
+
+		////////////////////////////////////
+		//////////////////////////////////////////
 
 	}
 
@@ -207,11 +273,30 @@ public class RelojBinario extends JPanel {
 			segundoDerecha = 0;
 		}
 
-		if (segundoIzquierda == 6) { //cambiamos el segundo digito de los minutos
-			
-			
+		if (segundoIzquierda == 6) { // cambiamos el segundo digito de los minutos
+
 			minutoDerecha++;
 			segundoIzquierda = 0;
+		}
+
+		if (minutoDerecha == 10) {
+			minutoIzquierda++;
+			minutoDerecha = 0;
+		}
+
+		if (minutoIzquierda == 6) {
+			horaDerecha++;
+			minutoIzquierda = 0;
+		}
+
+		if (horaDerecha == 10) {
+			horaIzquierda++;
+			horaDerecha = 0;
+		}
+
+		if (horaIzquierda == 2 && horaDerecha == 4) {
+
+			a.setStartFlag(false);
 		}
 
 		Color[] colorSD = decimalToColor(segundoDerecha);
@@ -226,18 +311,39 @@ public class RelojBinario extends JPanel {
 		SI4 = colorSI[1];
 		SI2 = colorSI[2];
 		SI1 = colorSI[3];
-		
+
 		Color[] colorMD = decimalToColor(minutoDerecha);
 
 		MD8 = colorMD[0];
 		MD4 = colorMD[1];
 		MD2 = colorMD[2];
 		MD1 = colorMD[3];
-		
-		
 
-		System.out
-				.println("00:" + minutoIzquierda + "" + minutoDerecha + ":" + segundoIzquierda + "" + segundoDerecha);
+		Color[] colorMI = decimalToColor(minutoIzquierda);
+
+		MI4 = colorMI[1];
+		MI2 = colorMI[2];
+		MI1 = colorMI[3];
+
+		Color[] colorHD = decimalToColor(horaDerecha);
+
+		HD8 = colorHD[0];
+		HD4 = colorHD[1];
+		HD2 = colorHD[2];
+		HD1 = colorHD[3];
+
+		Color[] colorHI = decimalToColor(horaIzquierda);
+
+		HI2 = colorHI[2];
+		HI1 = colorHI[3];
+		
+		StringBuilder reloj = new StringBuilder();
+		reloj.append(horaIzquierda + "" + horaDerecha + ":" + minutoIzquierda + "" + minutoDerecha + ":"
+				+ segundoIzquierda + "" + segundoDerecha);
+		
+		mostrarReloj.setText(reloj.toString());
+
+		System.out.println(reloj.toString());
 
 	}
 
@@ -324,14 +430,51 @@ public class RelojBinario extends JPanel {
 
 		default:
 
-			ret[0] = colorOff;
-			ret[1] = colorOff;
-			ret[2] = colorOff;
-			ret[3] = colorOff;
+			ret[0] = colorOn;
+			ret[1] = colorOn;
+			ret[2] = colorOn;
+			ret[3] = colorOn;
 			break;
 		}
 
 		return ret;
+
+	}
+
+	private void reset() {
+
+		segundoIzquierda = segundoDerecha = minutoDerecha = minutoIzquierda = horaDerecha = horaIzquierda = 0;
+		
+		StringBuilder reloj = new StringBuilder();
+		reloj.append(horaIzquierda + "" + horaDerecha + ":" + minutoIzquierda + "" + minutoDerecha + ":"
+				+ segundoIzquierda + "" + segundoDerecha);
+		
+		mostrarReloj.setText(reloj.toString());
+
+		SD8 = colorOn;
+		SD4 = colorOn;
+		SD2 = colorOn;
+		SD1 = colorOn;
+		SI4 = colorOn;
+		SI2 = colorOn;
+		SI1 = colorOn;
+		MD8 = colorOn;
+		MD4 = colorOn;
+		MD2 = colorOn;
+		MD1 = colorOn;
+		MI4 = colorOn;
+		MI2 = colorOn;
+		MI1 = colorOn;
+		HD8 = colorOn;
+		HD4 = colorOn;
+		HD2 = colorOn;
+		HD1 = colorOn;
+		HI2 = colorOn;
+		HI1 = colorOn;
+
+		repaint();
+		
+		
 
 	}
 }
