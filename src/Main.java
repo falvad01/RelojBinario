@@ -8,21 +8,23 @@ import javax.swing.JFrame;
 
 public class Main {
 
-	private static boolean startFlag = false;
+	private static boolean startFlag = true;
 
 	public static void main(String[] args) throws InterruptedException {
-
+		/*
+		MenuWindow menu = new MenuWindow();
+		
+		menu.setVisible(true);
+		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		*/
+		
+		
 		JFrame frame = new JFrame("Binario");
 		RelojBinario reloj = new RelojBinario();
 		frame.add(reloj);
 
-		Toolkit mipantalla = Toolkit.getDefaultToolkit();// Guardado sistema de vemtanas nativo
-		Dimension tamanioPantalla = mipantalla.getScreenSize();// Guardado la dimension de mi pantalla
-		int alturaPantalla = tamanioPantalla.height;// alto
-		int anchoPantalla = tamanioPantalla.width;// ancho
-		frame.setLocation(anchoPantalla / 4, alturaPantalla / 32);// Marco centrado
 
-		frame.setSize(450, 280);
+		frame.setSize(450, 300);
 		frame.setBackground(Color.BLACK);
 		frame.setResizable(false);// No dejamos poner en pantalla completa
 		frame.setVisible(true);
@@ -32,17 +34,22 @@ public class Main {
 
 		frame.setLayout(null);
 
-		while (true) { // Loop del juego
+		while (true) { // Loop del programa
 			
-			if (startFlag) {
+			if (startFlag) { //siempre activo en caso del reloj, variable en caso del cronometro
 
 				reloj.bucleReloj();
 				reloj.repaint();
 			}
-			Thread.sleep(1000);
+			Thread.sleep(1000);//Dormimos durante un segundo
 		}
+		
 	}
 
+	/**
+	 * Premite apagar y encender el bucle desde la clase del reloj
+	 * @param f
+	 */
 	public void setStartFlag(boolean f) {
 		
 		Main.startFlag = f;

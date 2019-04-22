@@ -10,23 +10,26 @@ import javax.swing.JPanel;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.UIManager;
 
 public class RelojBinario extends JPanel {
 
-	Main a = new Main();
+	Main a = new Main();  //pausar o continuar el cronometro
 	JLabel mostrarReloj;
+
+	boolean selectorModo = false; //nos permite selecionar entre relo y cronometro, es reloj por defento
 
 	private int radio = 15;
 	private int diametro = radio * 2;
 
 	private static final Color colorOn = Color.WHITE;
 	private static final Color colorOff = Color.BLACK;
-	private static final int PWIDTH = 300;
-	private static final int PHEIGH = 400;
-	private static final int initX = 380;
+	
+	
+	private static final int initX = 380; //variable que ayuda a pintar los elementos
 
 	private int segundoDerecha = 0;
 	private int segundoIzquierda = 0;
@@ -34,6 +37,8 @@ public class RelojBinario extends JPanel {
 	private int minutoIzquierda = 0;
 	private int horaDerecha = 0;
 	private int horaIzquierda = 0;
+	
+	//Variables de los colores de cada punto del reloj
 
 	private Color SD1 = Color.WHITE;
 	private Color SD2 = Color.WHITE;
@@ -76,14 +81,14 @@ public class RelojBinario extends JPanel {
 		uno.setBounds(initX + 40, 205, 20, 20);
 		uno.setVisible(true);
 		add(uno);
-		
+
 		mostrarReloj = new JLabel("00:00:00");
+		mostrarReloj.setForeground(Color.WHITE);
 		mostrarReloj.setFont(new Font("Tahoma", Font.BOLD, 17));
 		mostrarReloj.setBackground(Color.RED);
-		mostrarReloj.setBounds(20, 138, 89, 28);
+		mostrarReloj.setBounds(10, 178, 89, 28);
 		mostrarReloj.setVisible(true);
 		add(mostrarReloj);
-		
 
 		JLabel dos = new JLabel("2");
 		dos.setForeground(Color.WHITE);
@@ -103,40 +108,103 @@ public class RelojBinario extends JPanel {
 		ocho.setVisible(true);
 		add(ocho);
 
-		JButton btnNewButton = new JButton("Start");
-		btnNewButton.addActionListener(new ActionListener() {
+		
+		/////BOTONES//////////
+		JButton start = new JButton("Start");
+		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				a.setStartFlag(true);
 			}
 		});
 
-		btnNewButton.setBounds(10, 24, 89, 23);
-		add(btnNewButton);
+		start.setBounds(10, 75, 89, 23);
+		start.setVisible(false);
+		
+		add(start);
 
-		JButton btnNewButton_1 = new JButton("Stop");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton stop = new JButton("Stop");
+		stop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				a.setStartFlag(false);
 			}
 		});
-		btnNewButton_1.setBounds(10, 58, 89, 23);
-		add(btnNewButton_1);
+		stop.setBounds(10, 109, 89, 23);
+		add(stop);
+		
+		stop.setVisible(false);
+		
 
-		JButton btnNewButton_2 = new JButton("Reset");
-		btnNewButton_2.addActionListener(new ActionListener() {
+		JButton reset = new JButton("Reset");
+		reset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				reset();
 			}
 		});
-		btnNewButton_2.setBounds(10, 92, 89, 23);
-		add(btnNewButton_2);
+		reset.setBounds(10, 143, 89, 23);
+		reset.setVisible(false);
+		add(reset);
 
+		JButton reloj = new JButton("Reloj");
+		reloj.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectorModo = false;
+				a.setStartFlag(true);
+				start.setVisible(false);
+				stop.setVisible(false);
+				reset.setVisible(false);
+
+			}
+		});
+		reloj.setBounds(10, 11, 89, 23);
+		add(reloj);
+
+		JButton cronometro = new JButton("Cronometro");
+		cronometro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectorModo = true;
+				start.setVisible(true);
+				stop.setVisible(true);
+				reset.setVisible(true);
+				a.setStartFlag(false);
+				reset();
+			}
+		});
+		cronometro.setBounds(10, 41, 89, 23);
+		add(cronometro);
+		
+		//////////////////////
+		
+		JLabel lblSsss = new JLabel("SS:SS");
+		lblSsss.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblSsss.setForeground(Color.WHITE);
+		lblSsss.setBackground(Color.WHITE);
+		lblSsss.setBounds(357, 242, 56, 20);
+		add(lblSsss);
+		
+		JLabel label = new JLabel("MM:MM");
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("Tahoma", Font.BOLD, 15));
+		label.setBackground(Color.WHITE);
+		label.setBounds(259, 242, 66, 20);
+		add(label);
+		
+		JLabel label_1 = new JLabel("HH:HH");
+		label_1.setForeground(Color.WHITE);
+		label_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		label_1.setBackground(Color.WHITE);
+		label_1.setBounds(173, 242, 66, 20);
+		add(label_1);
+		
 	}
 
 	public void paint(Graphics g) {
 
 		super.paint(g);
-
+		
+		//Pintamos los puntos del reloj
+		
+		
+		////////////////////////SEGUNDOS
 		Graphics2D segundosD_8 = (Graphics2D) g;
 		segundosD_8.setStroke(new BasicStroke(10f)); // Grosor contorno
 		segundosD_8.setPaint(SD8);
@@ -179,7 +247,7 @@ public class RelojBinario extends JPanel {
 		lineaMinutosSegundos.setColor(Color.gray);
 		lineaMinutosSegundos.drawLine(initX - 50, initX - 50, initX - 50, 0);
 
-		////////////////////////////////////////////
+		//////////////////////MINUTos//////////////////////
 		//////////////////////////////////////////////////////
 
 		Graphics2D minutosD_8 = (Graphics2D) g;
@@ -224,7 +292,7 @@ public class RelojBinario extends JPanel {
 		lineaHorasMinutos.setColor(Color.gray);
 		lineaHorasMinutos.drawLine(initX - 140, initX - 50, initX - 140, 0);
 
-		////////////////////////////////////
+		/////////////////HORAS///////////////////
 		//////////////////////////////////////////
 
 		Graphics2D horasD_8 = (Graphics2D) g;
@@ -266,39 +334,61 @@ public class RelojBinario extends JPanel {
 
 	public void bucleReloj() {
 
-		segundoDerecha++;
+		if (selectorModo) { //Modo cronometro
+		
+			
+			segundoDerecha++;// TODO codigo cronometro
 
-		if (segundoDerecha == 10) { // CAmbiamos el segundo digito de los segundos
-			segundoIzquierda++;
-			segundoDerecha = 0;
+			if (segundoDerecha == 10) { // CAmbiamos el segundo digito de los segundos
+				segundoIzquierda++;
+				segundoDerecha = 0;
+			}
+
+			if (segundoIzquierda == 6) { // cambiamos el segundo digito de los minutos
+
+				minutoDerecha++;
+				segundoIzquierda = 0;
+			}
+
+			if (minutoDerecha == 10) { //cambiamos el primer digito de los minutos
+				minutoIzquierda++;
+				minutoDerecha = 0;
+			}
+
+			if (minutoIzquierda == 6) { //Cambiamos el segundo digito de las horas
+				horaDerecha++;
+				minutoIzquierda = 0;
+			}
+
+			if (horaDerecha == 10) { //cambiamos el primer digito de la hora
+				horaIzquierda++;
+				horaDerecha = 0;
+			}
+
+			if (horaIzquierda == 2 && horaDerecha == 4) { //paramos el cronometro al fina(duracion: UN DIA)
+
+				a.setStartFlag(false);
+			}
+
+		} else { //Modo reloj
+
+			
+			Calendar calendario = Calendar.getInstance();//Obtenemos la hora a cada segndo
+
+			int hora = calendario.get(Calendar.HOUR_OF_DAY);
+			int minutos = calendario.get(Calendar.MINUTE);
+			int segundos = calendario.get(Calendar.SECOND);
+
+			
+
+			separarNumeros(segundos, "seg");
+			separarNumeros(minutos, "min");
+			separarNumeros(hora, "hor");
+
 		}
 
-		if (segundoIzquierda == 6) { // cambiamos el segundo digito de los minutos
-
-			minutoDerecha++;
-			segundoIzquierda = 0;
-		}
-
-		if (minutoDerecha == 10) {
-			minutoIzquierda++;
-			minutoDerecha = 0;
-		}
-
-		if (minutoIzquierda == 6) {
-			horaDerecha++;
-			minutoIzquierda = 0;
-		}
-
-		if (horaDerecha == 10) {
-			horaIzquierda++;
-			horaDerecha = 0;
-		}
-
-		if (horaIzquierda == 2 && horaDerecha == 4) {
-
-			a.setStartFlag(false);
-		}
-
+		
+		//Cambiamos los colores de los circulos pintados arriba
 		Color[] colorSD = decimalToColor(segundoDerecha);
 
 		SD8 = colorSD[0];
@@ -336,17 +426,21 @@ public class RelojBinario extends JPanel {
 
 		HI2 = colorHI[2];
 		HI1 = colorHI[3];
-		
+
 		StringBuilder reloj = new StringBuilder();
 		reloj.append(horaIzquierda + "" + horaDerecha + ":" + minutoIzquierda + "" + minutoDerecha + ":"
 				+ segundoIzquierda + "" + segundoDerecha);
-		
-		mostrarReloj.setText(reloj.toString());
 
-		System.out.println(reloj.toString());
+		mostrarReloj.setText(reloj.toString()); //mostramos el reloj decimal en un Jlabel
 
 	}
 
+	/**
+	 * Tranformamos un numero decimal en sus colores binarios
+	 * 
+	 * @param numero a convertir
+	 * @return array de colores de cada fila de circulos binarios
+	 */
 	private Color[] decimalToColor(int numero) {
 
 		Color[] ret = new Color[4];
@@ -441,14 +535,58 @@ public class RelojBinario extends JPanel {
 
 	}
 
+	
+	/**
+	 * Separamos un numero decimal en decenas y unidades y lo metemos en las variables a transformar
+	 * @param n  numero a convertir
+	 * @param tipo  tipo de dato a guardar
+	 */
+	private void separarNumeros(int n, String tipo) {
+
+		int millares = n / 1000;
+		int centenas = (n - (millares * 1000)) / 100;
+		int decenas = (n - (millares * 1000 + centenas * 100)) / 10;
+		int unidades = n - (millares * 1000 + centenas * 100 + decenas * 10);
+
+		switch (tipo) {
+
+		case "seg":
+
+			segundoDerecha = unidades;
+			segundoIzquierda = decenas;
+
+			break;
+		case "min":
+
+			minutoDerecha = unidades;
+			minutoIzquierda = decenas;
+
+			break;
+		case "hor":
+
+			horaDerecha = unidades;
+			horaIzquierda = decenas;
+
+			break;
+
+		default:
+			break;
+		}
+
+	}
+
+	
+	/**
+	 * Metodo que resetea el reloj del cronometro
+	 */
 	private void reset() {
 
 		segundoIzquierda = segundoDerecha = minutoDerecha = minutoIzquierda = horaDerecha = horaIzquierda = 0;
-		
+
 		StringBuilder reloj = new StringBuilder();
 		reloj.append(horaIzquierda + "" + horaDerecha + ":" + minutoIzquierda + "" + minutoDerecha + ":"
 				+ segundoIzquierda + "" + segundoDerecha);
-		
+
 		mostrarReloj.setText(reloj.toString());
 
 		SD8 = colorOn;
@@ -473,8 +611,6 @@ public class RelojBinario extends JPanel {
 		HI1 = colorOn;
 
 		repaint();
-		
-		
 
 	}
 }
