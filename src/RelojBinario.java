@@ -1,16 +1,13 @@
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
+
 import java.awt.Color;
-import java.awt.EventQueue;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -28,15 +25,26 @@ public class RelojBinario extends JPanel {
 
 	private int segundoDerecha = 0;
 	private int segundoIzquierda = 0;
+	private int minutoDerecha = 0;
+	private int minutoIzquierda = 0;
 
-	Color SD1 = Color.WHITE;
-	Color SD2 = Color.WHITE;
-	Color SD4 = Color.WHITE;
-	Color SD8 = Color.WHITE;
+	private Color SD1 = Color.WHITE;
+	private Color SD2 = Color.WHITE;
+	private Color SD4 = Color.WHITE;
+	private Color SD8 = Color.WHITE;
 
 	private Color SI1 = Color.WHITE;
 	private Color SI2 = Color.WHITE;
 	private Color SI4 = Color.WHITE;
+	
+	private Color MD1 = Color.WHITE;
+	private Color MD2 = Color.WHITE;
+	private Color MD4 = Color.WHITE;
+	private Color MD8 = Color.WHITE;
+	
+	private Color MI1 = Color.WHITE;
+	private Color MI2 = Color.WHITE;
+	private Color MI4 = Color.WHITE;
 
 	/**
 	 * Create the frame.
@@ -115,6 +123,7 @@ public class RelojBinario extends JPanel {
 		segundosD_1.setStroke(new BasicStroke(10f)); // Grosor contorno
 		segundosD_1.setPaint(SD1);
 		segundosD_1.fillOval(initX, 200, diametro, diametro);
+		
 		///////////////////////////
 
 		Graphics2D segundosI_4 = (Graphics2D) g;
@@ -139,12 +148,72 @@ public class RelojBinario extends JPanel {
 
 		/////////////////////////
 		//////////////////////////
+		
+		
+		
+		
+		Graphics2D minutosD_8 = (Graphics2D) g;
+		minutosD_8.setStroke(new BasicStroke(10f)); // Grosor contorno
+		minutosD_8.setPaint(MD8);
+		minutosD_8.fillOval(initX-90, 20, diametro, diametro);
+
+		Graphics2D minutosD_4 = (Graphics2D) g;
+		minutosD_4.setStroke(new BasicStroke(10f)); // Grosor contorno
+		minutosD_4.setPaint(MD4);
+		minutosD_4.fillOval(initX-90, 80, diametro, diametro);
+
+		Graphics2D minutosD_2 = (Graphics2D) g;
+		minutosD_2.setStroke(new BasicStroke(10f)); // Grosor contorno
+		minutosD_2.setPaint(MD2);
+		minutosD_2.fillOval(initX-90, 140, diametro, diametro);
+
+		Graphics2D minutosD_1 = (Graphics2D) g;
+		minutosD_1.setStroke(new BasicStroke(10f)); // Grosor contorno
+		minutosD_1.setPaint(MD1);
+		minutosD_1.fillOval(initX-90, 200, diametro, diametro);
+		
+		///////////////////////////
+
+		Graphics2D minutosI_4 = (Graphics2D) g;
+		minutosI_4.setStroke(new BasicStroke(10f)); // Grosor contorno
+		minutosI_4.setPaint(MI4);
+		minutosI_4.fillOval(initX - 130, 80, diametro, diametro);
+
+		Graphics2D minutosI_2 = (Graphics2D) g;
+		minutosI_2.setStroke(new BasicStroke(10f)); // Grosor contorno
+		minutosI_2.setPaint(MI2);
+		minutosI_2.fillOval(initX - 130, 140, diametro, diametro);
+
+		Graphics2D minutosI_1 = (Graphics2D) g;
+		minutosI_1.setStroke(new BasicStroke(10f)); // Grosor contorno
+		minutosI_1.setPaint(MI1);
+		minutosI_1.fillOval(initX - 130, 200, diametro, diametro);
+
+		Graphics2D lineaHorasMinutos = (Graphics2D) g;
+		lineaHorasMinutos.setStroke(new BasicStroke(1f)); // Grosor contorno
+		lineaHorasMinutos.setColor(Color.gray);
+		lineaHorasMinutos.drawLine(initX - 140, initX - 50, initX - 140, 0);
+		
+		
 
 	}
 
 	public void bucleReloj() {
 
 		segundoDerecha++;
+
+		if (segundoDerecha == 10) { // CAmbiamos el segundo digito de los segundos
+			segundoIzquierda++;
+			segundoDerecha = 0;
+		}
+
+		if (segundoIzquierda == 6) { //cambiamos el segundo digito de los minutos
+			
+			
+			minutoDerecha++;
+			segundoIzquierda = 0;
+		}
+
 		Color[] colorSD = decimalToColor(segundoDerecha);
 
 		SD8 = colorSD[0];
@@ -152,24 +221,27 @@ public class RelojBinario extends JPanel {
 		SD2 = colorSD[2];
 		SD1 = colorSD[3];
 
-		if (segundoDerecha == 10) {
-			segundoIzquierda++;
-			segundoDerecha = 0;
-		}
-		
 		Color[] colorSI = decimalToColor(segundoIzquierda);
 
 		SI4 = colorSI[1];
 		SI2 = colorSI[2];
 		SI1 = colorSI[3];
+		
+		Color[] colorMD = decimalToColor(minutoDerecha);
 
-		System.out.println("00:00:" + segundoIzquierda + "" + segundoDerecha);
+		MD8 = colorMD[0];
+		MD4 = colorMD[1];
+		MD2 = colorMD[2];
+		MD1 = colorMD[3];
+		
+		
+
+		System.out
+				.println("00:" + minutoIzquierda + "" + minutoDerecha + ":" + segundoIzquierda + "" + segundoDerecha);
 
 	}
 
 	private Color[] decimalToColor(int numero) {
-
-		System.out.println("numero " + numero);
 
 		Color[] ret = new Color[4];
 

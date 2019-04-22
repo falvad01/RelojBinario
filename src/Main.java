@@ -42,14 +42,14 @@ public class Main {
 
 			}
 
-			Thread.sleep(1000);
+			Thread.sleep(100);
 
 		}
 
 	}
 
 	public void setStartFlag(boolean f) {
-		System.out.println("A");
+		
 		Main.startFlag = f;
 	}
 
